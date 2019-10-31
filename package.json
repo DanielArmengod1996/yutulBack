@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/DanielArmengod1996/yutulBack/issues"
   },
-  "homepage": "https://github.com/DanielArmengod1996/yutulBack#readme"
+  "homepage": "https://github.com/DanielArmengod1996/yutulBack#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "request": "^2.88.0"
+  }
 }
