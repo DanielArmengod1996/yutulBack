@@ -36,31 +36,6 @@ app.get('/getVideos', (req, res) => {
     res.send(JSON.stringify(varMineResponse));
     /**/
 });
-/**/
-/*
-app.post('/uploadVideo', function(req, res){
-    console.log('conectado');
-    var file = fs.createWriteStream('videos/file.mp4');
-    var finalResponse='';
-    req.on('data', (data)=>{
-        file.write(data);
-        console.log(data);
-    });
-    req.on('end',()=>{
-        file.end();
-        console.log('fin');
-        res.send('{"status":"ok"}');
-
-    });
-    req.on( 'response', function ( data ) {
-        console.log( data.headers[ 'content-length' ] );
-    } );
-    req.on('information', (info) => {
-        console.log(`Got information prior to main response: ${info.statusCode}`);
-    });
-
-});
-/**/
 
 const handleError = (err, res) => {
     res
@@ -76,7 +51,7 @@ const upload = multer({
 
 app.post(
     "/uploadVideo",
-    upload.single("file" /* name attribute of <file> element in your form */),
+    upload.single("file"),
     (req, res) => {
       const tempPath = req.file.path;
       const targetPath = path.join(__dirname, "./videos/video.mp4");
@@ -130,10 +105,7 @@ app.get('/getvideo', function(req, res) {
     console.log(end);
     
     const chunksize = (end-start)+1
-    
-    const file = fs.createReadStream(path, {start, end});
-    if(start>end) 
-        file = fs.createReadStream(path, {end, start})
+    const file = fs.createReadStream(path, {start, end})
 
     const head = {
         'Content-Range': `bytes ${start}-${end}/${fileSize}`,
