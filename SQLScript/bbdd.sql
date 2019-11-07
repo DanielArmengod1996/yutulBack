@@ -1,3 +1,5 @@
+DROP DATABASE `yutul`;
+
 CREATE DATABASE `yutul`;
 USE `yutul`;
 
@@ -21,6 +23,7 @@ CREATE TABLE IF NOT EXISTS videos
     `tags` VARCHAR(50) NOT NULL,
     `localizacionVideo` VARCHAR(100) NOT NULL,
     `localizacionImage` VARCHAR(100) NOT NULL,
+    `likes` INT DEFAULT 0
 
     `id_usuario` INT,
         FOREIGN KEY(id_usuario) 
