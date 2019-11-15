@@ -5,7 +5,7 @@ USE `yutul`;
 
 CREATE TABLE IF NOT EXISTS usuarios
 (
-    `id` INT PRIMARY KEY,
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
     `name` VARCHAR(50) NOT NULL,
     `lastname` VARCHAR(50) NOT NULL,
     `nick` VARCHAR(50) NOT NULL,
@@ -17,15 +17,15 @@ CREATE TABLE IF NOT EXISTS usuarios
 
 CREATE TABLE IF NOT EXISTS videos
 (
-    `id` INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
     `nombre` VARCHAR(50) NOT NULL,
     `description` VARCHAR(200) NOT NULL,
     `tags` VARCHAR(50) NOT NULL,
     `localizacionVideo` VARCHAR(100) NOT NULL,
     `localizacionImage` VARCHAR(100) NOT NULL,
-    `likes` INT DEFAULT 0
+    `likes` INT DEFAULT 0,
 
     `id_usuario` INT,
-        FOREIGN KEY(id_usuario) 
+        FOREIGN KEY(id_usuario)
         REFERENCES usuarios(id)
 );
