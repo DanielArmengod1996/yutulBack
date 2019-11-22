@@ -127,6 +127,7 @@ app.post('/joinSession', (req, res) => {
         doQuery(query, params).then((results)=>{
             console.log(results);
             var classResponse = results.length > 0  ? JSON.stringify( wrapper.instanceSessionResponse(results[0].id) ) : JSON.stringify( wrapper.instanceSessionResponse('ko') ) ;
+            console.log(classResponse);
             res.send(classResponse);
         });
         
