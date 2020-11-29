@@ -36,6 +36,63 @@ app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}...`);
 });
 
+
+app.get("/getRandomImages", function name(req, res) {
+    res.set({
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*"
+    });
+
+    const query = "SELECT nombre, description, localizacionVideo, localizacionImage FROM videos ORDER BY RAND() LIMIT 200";
+    doQuery(query).then(results => {
+        console.log(results);
+        var classResponse =
+        results.length > 0
+            ? JSON.stringify(wrapper.instanceSessionResponse(results))
+            : JSON.stringify(wrapper.instanceSessionResponse("ko"));
+        console.log(classResponse);
+        res.send(classResponse);
+    });
+})
+
+/* devuelve imágenes alojadas en el servidor*/
+app.get("/getImage", function name(req, res) {
+    console.log('HOLAAAA');
+    var path = `./videos/${req.query.name}`;
+    const stat = fs.statSync(path);
+    const fileSize = stat.size;
+    const range = req.headers.range;
+
+    if (range) {
+        const parts = range.replace(/bytes=/, "").split("-");
+        const start = parseInt(parts[0], 10);
+        const end = parts[1] ? parseInt(parts[1], 10) : fileSize - 1;
+
+        console.log(start);
+        console.log(end);
+
+        const chunksize = end - start + 1;
+        const file = fs.createReadStream(path, { start, end });
+
+        const head = {
+        "Content-Range": `bytes ${start}-${end}/${fileSize}`,
+        "Accept-Ranges": "bytes",
+        "Content-Length": chunksize,
+        "Content-Type": "image/png"
+        };
+
+        res.writeHead(206, head);
+        file.pipe(res);
+    } else {
+        const head = {
+        "Content-Length": fileSize,
+        "Content-Type": "image/png"
+        };
+        res.writeHead(200, head);
+        fs.createReadStream(path).pipe(res);
+    }
+});
+
 /* video streaming */
 app.get("/getvideo", function(req, res) {
   const path = "./videos/video.mp4";
