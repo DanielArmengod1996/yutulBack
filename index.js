@@ -95,7 +95,9 @@ app.get("/getImage", function name(req, res) {
 
 /* video streaming */
 app.get("/getvideo", function(req, res) {
-  const path = "./videos/video.mp4";
+  const videoName = req.query.urlVideo;
+  console.log(videoName);
+  const path = "./videos/" + videoName;
   const stat = fs.statSync(path);
   const fileSize = stat.size;
   const range = req.headers.range;
@@ -129,6 +131,9 @@ app.get("/getvideo", function(req, res) {
     fs.createReadStream(path).pipe(res);
   }
 });
+/**
+ * @IdeaPool
+ */
 
 /**
  *  @description Method used to get the Video info that is gona to be Inserted in the database
